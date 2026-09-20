@@ -85,4 +85,25 @@ describe('MoviesService', () => {
       expect(afterCreate).toBeGreaterThan(beforeCreate);
     });
   });
+
+  describe('update', () => {
+    it('should update a movie', () => {
+      service.create({
+        title: 'Test Movie',
+        year: 2020,
+        genres: ['test'],
+      });
+      service.update(1, { title: 'Updated Test Movie' });
+      const movie = service.getOne(1);
+      expect(movie.title).toEqual('Updated Test Movie');
+    });
+
+    it('should throw a NotFoundException', () => {
+      try {
+        service.update(999, {});
+      } catch (e) {
+        expect(e).toBeInstanceOf(NotFoundException);
+      }
+    });
+  });
 });
